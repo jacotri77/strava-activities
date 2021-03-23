@@ -1,10 +1,11 @@
 import sqlite3
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
-import secrets
+#import secrets
+from config import Config
 
-secret_key = secrets.token_hex(32)
-#print(secret_key)
+# secret_key = secrets.token_hex(32)
+# print(secret_key)
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -19,7 +20,8 @@ def get_post(post_id):
     return post
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secret_key
+app.config.from_object(Config)
+
 
 @app.route('/')
 def index():
